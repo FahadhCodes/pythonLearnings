@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Performance Predictor</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>
+          <i class="fas fa-graduation-cap"></i> Student Performance Predictor
+        </h1>
+        <p class="subtitle">
+          Predict final GPA category based on student metrics
+        </p>
+      </header>
+
+      <div class="main-content">
+        <div class="form-section">
+          <h2><i class="fas fa-edit"></i> Enter Student Data</h2>
+          <div class="range-info">
+            <p>
+              <i class="fas fa-info-circle"></i> Enter values within valid
+              ranges:
+            </p>
+            <div id="rangeSummary" class="range-summary"></div>
+          </div>
+
+          <form id="predictionForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="attendance_percentage">
+                  <i class="fas fa-calendar-check"></i> Attendance (%)
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="attendance_percentage"
+                    name="attendance_percentage"
+                    min="0"
+                    max="100"
+                    step="1"
+                    required
+                    data-min="0"
+                    data-max="100"
+                    data-step="1"
+                  />
+                  <div class="range-display">Range: 0-100%</div>
+                </div>
+                <small>Percentage of classes attended (0-100%)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="sleep_time_hours">
+                  <i class="fas fa-bed"></i> Sleep Time (hours/day)
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="sleep_time_hours"
+                    name="sleep_time_hours"
+                    min="0"
+                    max="24"
+                    step="0.1"
+                    required
+                    data-min="0"
+                    data-max="24"
+                    data-step="0.1"
+                  />
+                  <div class="range-display">Range: 0-24 hours</div>
+                </div>
+                <small>Average daily sleep hours (0-24 hours)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="study_hours_per_week">
+                  <i class="fas fa-book"></i> Study Hours/Week
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="study_hours_per_week"
+                    name="study_hours_per_week"
+                    min="0"
+                    max="50"
+                    step="1"
+                    required
+                    data-min="0"
+                    data-max="50"
+                    data-step="1"
+                  />
+                  <div class="range-display">Range: 0-50 hours</div>
+                </div>
+                <small>Weekly study hours (0-50 hours)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="total_credits">
+                  <i class="fas fa-certificate"></i> Total Credits
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="total_credits"
+                    name="total_credits"
+                    min="0"
+                    max="40"
+                    step="1"
+                    required
+                    data-min="0"
+                    data-max="40"
+                    data-step="1"
+                  />
+                  <div class="range-display">Range: 0-40 credits</div>
+                </div>
+                <small>Total credit hours enrolled (0-40 credits)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="high_credit_modules">
+                  <i class="fas fa-star"></i> High Credit Modules
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="high_credit_modules"
+                    name="high_credit_modules"
+                    min="0"
+                    max="10"
+                    step="1"
+                    required
+                    data-min="0"
+                    data-max="10"
+                    data-step="1"
+                  />
+                  <div class="range-display">Range: 0-10 modules</div>
+                </div>
+                <small>Number of high-credit modules (0-10)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="low_credit_modules">
+                  <i class="fas fa-star-half-alt"></i> Low Credit Modules
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="low_credit_modules"
+                    name="low_credit_modules"
+                    min="0"
+                    max="10"
+                    step="1"
+                    required
+                    data-min="0"
+                    data-max="10"
+                    data-step="1"
+                  />
+                  <div class="range-display">Range: 0-10 modules</div>
+                </div>
+                <small>Number of low-credit modules (0-10)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="repeat_module_credits">
+                  <i class="fas fa-redo"></i> Repeat Credits
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="repeat_module_credits"
+                    name="repeat_module_credits"
+                    min="0"
+                    max="20"
+                    step="1"
+                    required
+                    data-min="0"
+                    data-max="20"
+                    data-step="1"
+                  />
+                  <div class="range-display">Range: 0-20 credits</div>
+                </div>
+                <small>Credits from repeated modules (0-20 credits)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="lab_credits">
+                  <i class="fas fa-flask"></i> Lab Credits
+                </label>
+                <div class="input-with-range">
+                  <input
+                    type="number"
+                    id="lab_credits"
+                    name="lab_credits"
+                    min="0"
+                    max="20"
+                    step="1"
+                    required
+                    data-min="0"
+                    data-max="20"
+                    data-step="1"
+                  />
+                  <div class="range-display">Range: 0-20 credits</div>
+                </div>
+                <small>Laboratory/practical credits (0-20 credits)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="part_time_job">
+                  <i class="fas fa-briefcase"></i> Part-time Job
+                </label>
+                <select id="part_time_job" name="part_time_job" required>
+                  <option value="0">No (0)</option>
+                  <option value="1">Yes (1)</option>
+                </select>
+                <small>Has part-time job (0=No, 1=Yes)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="internet_access">
+                  <i class="fas fa-wifi"></i> Internet Access
+                </label>
+                <select id="internet_access" name="internet_access" required>
+                  <option value="0">No (0)</option>
+                  <option value="1" selected>Yes (1)</option>
+                </select>
+                <small>Has reliable internet access (0=No, 1=Yes)</small>
+              </div>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" id="fillSample" class="btn secondary">
+                <i class="fas fa-magic"></i> Fill Sample
+              </button>
+              <button type="button" id="validateInputs" class="btn info">
+                <i class="fas fa-check-circle"></i> Validate Inputs
+              </button>
+              <button type="submit" class="btn primary">
+                <i class="fas fa-brain"></i> Predict Performance
+              </button>
+              <button type="reset" class="btn tertiary">
+                <i class="fas fa-undo"></i> Clear All
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="result-section">
+          <h2><i class="fas fa-chart-line"></i> Prediction Results</h2>
+          <div id="result" class="hidden">
+            <div class="prediction-card">
+              <div class="prediction-header">
+                <h3>Predicted GPA Category</h3>
+                <div id="predictionBadge" class="prediction-badge"></div>
+              </div>
+
+              <div class="probability-chart">
+                <h4><i class="fas fa-chart-pie"></i> Prediction Confidence</h4>
+                <div id="probabilityChart"></div>
+              </div>
+
+              <div class="feature-summary">
+                <h4><i class="fas fa-list"></i> Input Summary</h4>
+                <div id="featureSummary" class="feature-grid"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="loading" class="hidden">
+            <div class="loading-spinner">
+              <i class="fas fa-cog fa-spin"></i>
+              <p>Analyzing student data...</p>
+            </div>
+          </div>
+
+          <div id="error" class="hidden">
+            <div class="error-message">
+              <i class="fas fa-exclamation-triangle"></i>
+              <p id="errorText"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>
+          Student Performance Prediction System | Powered by Machine Learning
+        </p>
+        <p class="footer-note">
+          <i class="fas fa-info-circle"></i>
+          Predicts GPA categories: {{ classes|join(', ') }}
+        </p>
+      </footer>
+    </div>
+
+    <!-- Include external JavaScript file -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
